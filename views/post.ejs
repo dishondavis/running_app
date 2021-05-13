@@ -24,8 +24,8 @@
       </div>
     </div>
     <div class="col-3 mt-5">
-      <p>Time: <%= post.time %></p>
-      <p>Date: <%= post.day %></p>
+      <p>Time: <%= postDateTime.format("hh:mm A") %></p>
+      <p>Date: <%= postDateTime.format("MM/DD/YY") %></p>
       <p>Location: <%= post.location %></p>
     </div>
     <div class="mt-5">
@@ -37,23 +37,23 @@
         <button type="button" class="btn btn-primary" >Edit</button></a>
     </div>
     <% if(edit === 'true'){%>
-      <form action="/post/updatePost/<%= post.id %>?_method=PUT" enctype="multipart/form-data" method="POST"> 
+      <form action="/post/updatePost/<%= post.id %>?_method=PUT" method="POST"> 
         <div class="mb-3">
           <label for="time" class="form-label">Time</label>
-          <input type="time" id="time" name="time"
+          <input type="time" value="<%= post.time %>" id="time" name="time"
                  min="00:00" max="24:00" required>     
         </div>
     
         <div class="mb-3">
           <label for="day" class="form-label">Day</label>
           <input type="date" id="day" name="day"
-                 value="2021-05-10"
+          value="<%= post.day %>"
                  min="2021-01-01" max="2021-12-31">
         </div>
     
         <div class="mb-3">
           <label for="location" class="form-label">Location</label>
-          <textarea type="text" class="form-control" id="location" name="location"></textarea>
+          <textarea type="text" class="form-control" id="location" name="location"><%= post.location %></textarea>
         </div>
         <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
       </form>

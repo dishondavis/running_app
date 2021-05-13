@@ -1,5 +1,6 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
+const moment = require('moment')
 
 
 module.exports = {
@@ -23,7 +24,9 @@ module.exports = {
     try {
       console.log(req.query);
       const post = await Post.findById(req.params.id);
-      res.render("post.ejs", { post: post, user: req.user, edit: req.query.edit });
+      const postDateTime = moment(post.day +' '+ post.time)
+      console.log(postDateTime);
+      res.render("post.ejs", { post: post, user: req.user, edit: req.query.edit, postDateTime: postDateTime });
     } catch (err) {
       console.log(err);
     }
@@ -64,18 +67,12 @@ module.exports = {
   },
   updatePost: async (req, res,) => {
     try{ console.log(req.body, 'updatePost');
-       await Post.create({
+       await Post.findOneAndUpdate({
+        _id: req.params.id 
+       },{
         time: req.body.time,
         day: req.body.day,
         location: req.body.location,
-       
-      //   _id: req.params.id},
-      //   {
-      //     $set:
-      //     {time: '12:00',
-      //     day: req.body.day,
-      //     location: req.body.location
-      //     },
       },);
       console.log("Update the time, day or location ");
       res.redirect(`/post/${req.params.id}`);
